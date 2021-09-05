@@ -8,11 +8,25 @@ import java.util.HashMap;
 // write out current shymbol to msg
 public class LZW {
 	HashMap <Integer, String> dict;
+	Integer[] stringyboi;
+	String curr;
+	
 	public LZW()
 	{
-		for(char ch = 0;ch<256;ch++)
+		for(char ch = 'a';ch<='z';ch++)
 		{
 			dict.put((int) ch, ""+ch);
+		}
+		
+	}
+	public void encode(String input,String outputfile)
+	{
+		for(int a=0;a<input.length();a++)
+		{
+			curr = ""+input.charAt(a);
+			if(dict.containsValue(curr)) {
+				
+			}
 		}
 	}
 }
