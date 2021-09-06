@@ -12,39 +12,40 @@ public class LZW {
 	ArrayList<Integer> stringyboi;
 	String curr;
 	char nxt;
+	boolean hamster = false;
 	public LZW()
 	{
+		dict = new HashMap();
+		dict.put("#",0);
+		stringyboi = new ArrayList();
 		for(char ch = 'a';ch<='z';ch++)
 		{
-			dict.put(""+ch,(int) ch);
+			dict.put(""+ch,(int) ch-'a'+1);
 		}
 		
 	}
 	public void encode(String input,String outputfile)
 	{
+		curr="";
 		int index=0;
-		while(stringyboi.size()<=input.length())
+		while(stringyboi.size()<input.length())
 		{
 			nxt = input.charAt(index);
-			if(curr!=null)
-			{
+			
+				if(dict.containsKey(curr+nxt))
+				{
+					curr = curr+nxt;
+				
+				}
+				else {
+					stringyboi.add(dict.get(curr));
+					dict.put(curr, dict.keySet().size());
+				}
 				
 			
-			if(dict.containsKey(curr))
-			{
-				stringyboi.add(dict.get(curr));
-				
-			}
-			curr = curr + nxt;
-			}
+			
 			index++;
 		}
-		for(int a=0;a<input.length();a++)
-		{
-			curr = ""+input.charAt(a);
-			if(dict.containsKey(curr)) {
-				
-			}
-		}
+	
 	}
 }
