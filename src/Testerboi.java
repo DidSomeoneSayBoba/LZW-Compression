@@ -6,6 +6,7 @@ public class Testerboi {
 		LZW boi = new LZW();
 		boi.encode("abcab", "");
 		System.out.println(boi.dict);
+		System.out.println(boi.stringyboi);
 	}
 
 }

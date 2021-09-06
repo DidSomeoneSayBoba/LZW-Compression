@@ -28,7 +28,7 @@ public class LZW {
 	{
 		curr="";
 		int index=0;
-		while(stringyboi.size()<input.length())
+		while(index<input.length())
 		{
 			nxt = input.charAt(index);
 			
@@ -39,13 +39,15 @@ public class LZW {
 				}
 				else {
 					stringyboi.add(dict.get(curr));
-					dict.put(curr, dict.keySet().size());
+					System.out.println("curr "+curr+", index"+index);
+					dict.put(curr+nxt, dict.keySet().size());
+					curr=""+nxt;
 				}
 				
 			
 			
 			index++;
 		}
-	
+		stringyboi.add(dict.get(curr));
 	}
 }
