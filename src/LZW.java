@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +18,7 @@ public class LZW {
 	ArrayList<Integer> stringyboi;
 	String curr;
 	char nxt;
-	boolean hamster = false;
+
 	public LZW()
 	{
 		dict = new HashMap();
@@ -24,13 +30,23 @@ public class LZW {
 		}
 		
 	}
-	public void encode(String input,String outputfile)
+	public void encode(String inputfile,String outputfile) throws IOException
 	{
+		BufferedReader reader;
+	
+		if(inputfile.contains(".txt")) {
+			reader= new BufferedReader(new FileReader(new File(inputfile)));
+		}
+		else {
+			reader= new BufferedReader(new FileReader(new File(inputfile+".txt")));
+		}
+
 		curr="";
+		
 		int index=0;
-		while(index<input.length())
+		while(reader.ready())
 		{
-			nxt = input.charAt(index);
+			nxt = (char)reader.read();
 			
 				if(dict.containsKey(curr+nxt))
 				{
@@ -39,7 +55,6 @@ public class LZW {
 				}
 				else {
 					stringyboi.add(dict.get(curr));
-					System.out.println("curr "+curr+", index"+index);
 					dict.put(curr+nxt, dict.keySet().size());
 					curr=""+nxt;
 				}
@@ -49,5 +64,24 @@ public class LZW {
 			index++;
 		}
 		stringyboi.add(dict.get(curr));
+		StringBuffer builder = new StringBuffer("");
+
+		for(int a=0;a<stringyboi.size();a++)
+		{
+			builder.append(stringyboi.get(a)+" ");
+		}
+		PrintWriter writer = new PrintWriter(outputfile+".txt");
+		writer.print(builder.toString());
+		writer.close();
+		StringBuffer buffer = new StringBuffer("");
+
+		for(String key:dict.keySet())
+		{
+			
+			buffer.append(key+" "+dict.get(key)+"\n");
+		}
+		PrintWriter kEYS = new PrintWriter(outputfile+"keys.txt");
+		kEYS.print(buffer.toString());
+		kEYS.close();
 	}
 }
