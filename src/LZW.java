@@ -54,7 +54,7 @@ public class LZW {
 				}
 				else {
 					stringyboi.add(dict.get(curr));
-					System.out.println("curr "+curr+" dict "+dict.get(curr));
+					//System.out.println("curr "+curr+" dict "+dict.get(curr));
 					dict.put(curr+nxt, 127+index);
 					curr=""+nxt;
 					index++;

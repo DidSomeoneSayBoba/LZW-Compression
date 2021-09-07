@@ -7,7 +7,7 @@ public class Testerboi {
 		LZW boi = new LZW();
 		String outname = "boi";
 		
-		boi.encode("lzw-file1", outname);
+		boi.encode("lzw-file3", outname);
 		System.out.println(boi.dict);
 		System.out.println(boi.stringyboi);
 		Decompressor dec = new Decompressor(outname+"keys.txt",outname+".txt","original");
