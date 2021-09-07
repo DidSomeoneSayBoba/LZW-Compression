@@ -42,7 +42,7 @@ public class LZW {
 
 		curr="";
 		
-		int index=0;
+		int index = 0;
 		while(reader.ready())
 		{
 			nxt = (char)reader.read();
@@ -54,13 +54,15 @@ public class LZW {
 				}
 				else {
 					stringyboi.add(dict.get(curr));
-					dict.put(curr+nxt, dict.keySet().size());
+					System.out.println("curr "+curr+" dict "+dict.get(curr));
+					dict.put(curr+nxt, 127+index);
 					curr=""+nxt;
+					index++;
 				}
 				
 			
 			
-			index++;
+		
 		}
 		stringyboi.add(dict.get(curr));
 		StringBuffer builder = new StringBuffer("");
