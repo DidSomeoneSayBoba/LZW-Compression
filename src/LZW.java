@@ -22,11 +22,10 @@ public class LZW {
 	public LZW()
 	{
 		dict = new HashMap();
-		dict.put("#",0);
 		stringyboi = new ArrayList();
-		for(char ch = 'a';ch<='z';ch++)
+		for(char ch = 32;ch<=126;ch++)
 		{
-			dict.put(""+ch,(int) ch-'a'+1);
+			dict.put(""+ch,(int) ch);
 		}
 		
 	}
@@ -78,7 +77,7 @@ public class LZW {
 		for(String key:dict.keySet())
 		{
 			
-			buffer.append(key+" "+dict.get(key)+"\n");
+			buffer.append(dict.get(key)+" "+key+"\n");
 		}
 		PrintWriter kEYS = new PrintWriter(outputfile+"keys.txt");
 		kEYS.print(buffer.toString());
