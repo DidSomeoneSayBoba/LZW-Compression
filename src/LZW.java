@@ -69,7 +69,7 @@ public class LZW {
 
 		for(int a=0;a<stringyboi.size();a++)
 		{
-			builder.append(stringyboi.get(a)+" ");
+			builder.append(Integer.toBinaryString(stringyboi.get(a))+" ");
 		}
 		PrintWriter writer = new PrintWriter(outputfile+".txt");
 		writer.print(builder.toString());
