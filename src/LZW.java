@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +32,7 @@ public class LZW {
 		}
 		
 	}
-	public void encode(String inputfile,String outputfile) throws IOException
+	public void encode(String inputfile,String outputfile,int bytesize) throws IOException
 	{
 		BufferedReader reader;
 	
@@ -64,16 +67,24 @@ public class LZW {
 			
 		
 		}
+		
 		stringyboi.add(dict.get(curr));
 		StringBuffer builder = new StringBuffer("");
-
+		FileOutputStream writer = new FileOutputStream(outputfile+".txt");
 		for(int a=0;a<stringyboi.size();a++)
 		{
-			builder.append(Integer.toBinaryString(stringyboi.get(a))+" ");
+//code
+			String binaryver = Integer.toBinaryString(stringyboi.get(a));
+			byte[] bytes = new BigInteger(binaryver,2).toByteArray();
+			builder.append(stringyboi.get(a));
+			writer.write(bytes);
+			
 		}
-		PrintWriter writer = new PrintWriter(outputfile+".txt");
-		writer.print(builder.toString());
+
+		
+
 		writer.close();
+		
 		StringBuffer buffer = new StringBuffer("");
 
 		for(String key:dict.keySet())
