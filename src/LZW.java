@@ -69,11 +69,14 @@ public class LZW {
 		}
 		
 		stringyboi.add(dict.get(curr));
+		
 		StringBuffer builder = new StringBuffer("");
 		FileOutputStream writer = new FileOutputStream(outputfile+".txt");
 		for(int a=0;a<stringyboi.size();a++)
 		{
-//code
+			System.out.println(stringyboi.get(a));
+//code		System.out.println(st)
+			
 			String binaryver = Integer.toBinaryString(stringyboi.get(a));
 			byte[] bytes = new BigInteger(binaryver,2).toByteArray();
 			builder.append(stringyboi.get(a));
