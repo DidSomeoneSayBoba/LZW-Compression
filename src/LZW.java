@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 //ascii are 8bits, make slightly bigger table, add own characters, save multiple chars
 //algorithm : current letter, next letter, output
@@ -53,14 +54,17 @@ public class LZW {
 				if(dict.containsKey(curr+nxt))
 				{
 					curr = curr+nxt;
-				
+					
 				}
 				else {
+					if(index<Math.pow(2,bytesize)-127) {
 					stringyboi.add(dict.get(curr));
 					//System.out.println("curr "+curr+" dict "+dict.get(curr));
 					dict.put(curr+nxt, 127+index);
+					
 					curr=""+nxt;
 					index++;
+					}
 				}
 				
 			
@@ -72,16 +76,22 @@ public class LZW {
 		
 		StringBuffer builder = new StringBuffer("");
 		FileOutputStream writer = new FileOutputStream(outputfile+".txt");
+		System.out.println(stringyboi.get(0));
 		for(int a=0;a<stringyboi.size();a++)
 		{
-			System.out.println(stringyboi.get(a));
-//code		System.out.println(st)
 			
+//code		System.out.println(st)
+			//System.out.println(stringyboi.get(a));
+			if(!Objects.isNull(stringyboi.get(a)))
+			{
 			String binaryver = Integer.toBinaryString(stringyboi.get(a));
+			binaryver = String.format("%"+bytesize+"s",binaryver);
+			binaryver = binaryver.replaceAll(" ","0");
+			System.out.println(binaryver);
 			byte[] bytes = new BigInteger(binaryver,2).toByteArray();
 			builder.append(stringyboi.get(a));
 			writer.write(bytes);
-			
+			}
 		}
 
 		
