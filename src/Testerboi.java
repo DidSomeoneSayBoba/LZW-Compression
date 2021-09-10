@@ -6,11 +6,9 @@ public class Testerboi {
 		// TODO Auto-generated method stub
 		LZW boi = new LZW();
 		String outname = "boi";
-		int bytecount = 11;
+		int bytecount = 9;
 		boi.encode("lzw-file3", outname,bytecount);
 
-		Decompressor dec = new Decompressor(outname+"keys.txt",outname+".txt","original");
-		System.out.println(dec.dict);
 		//System.out.println(dec.stringyboi);
 	}
 

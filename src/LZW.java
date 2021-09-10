@@ -57,14 +57,17 @@ public class LZW {
 					
 				}
 				else {
-					if(index<Math.pow(2,bytesize)-127) {
-					stringyboi.add(dict.get(curr));
-					//System.out.println("curr "+curr+" dict "+dict.get(curr));
-					dict.put(curr+nxt, 127+index);
 					
+					
+					stringyboi.add(dict.get(curr));
+					
+					//System.out.println("curr "+curr+" dict "+dict.get(curr));
+					if(index<Math.pow(2,bytesize)-127) {
+					dict.put(curr+nxt, 127+index);
+					}
 					curr=""+nxt;
 					index++;
-					}
+					
 				}
 				
 			
