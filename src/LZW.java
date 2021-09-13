@@ -1,3 +1,5 @@
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +19,10 @@ import java.util.Objects;
 // is current+next in dict?
 //if not, write to dict
 // write out current shymbol to msg
+/* comment like this
+ * so you can click return and not have to // for each line
+ * nerd
+ */
 public class LZW {
 	HashMap <String, Integer> dict;
 	ArrayList<Integer> stringyboi;
@@ -31,12 +37,12 @@ public class LZW {
 		{
 			dict.put(""+ch,(int) ch);
 		}
-		
+
 	}
 	public void encode(String inputfile,String outputfile,int bytesize) throws IOException
 	{
 		BufferedReader reader;
-	
+
 		if(inputfile.contains(".txt")) {
 			reader= new BufferedReader(new FileReader(new File(inputfile)));
 		}
@@ -45,71 +51,76 @@ public class LZW {
 		}
 
 		curr="";
-		
+
 		int index = 0;
 		while(reader.ready())
 		{
 			nxt = (char)reader.read();
-			
-				if(dict.containsKey(curr+nxt))
-				{
-					curr = curr+nxt;
-					
-				}
-				else {
-					
-					
-					stringyboi.add(dict.get(curr));
-					
-					//System.out.println("curr "+curr+" dict "+dict.get(curr));
-					if(index<Math.pow(2,bytesize)-127) {
+
+			if(dict.containsKey(curr+nxt))
+			{
+				curr = curr+nxt;
+
+			}
+			else {
+
+
+				stringyboi.add(dict.get(curr));
+
+				//System.out.println("curr "+curr+" dict "+dict.get(curr));
+				if(index<Math.pow(2,bytesize)-127) {
 					dict.put(curr+nxt, 127+index);
-					}
-					curr=""+nxt;
-					index++;
-					
 				}
-				
-			
-			
-		
+				curr=""+nxt;
+				index++;
+
+			}
+
+
+
+
 		}
-		
+
 		stringyboi.add(dict.get(curr));
-		
+
 		StringBuffer builder = new StringBuffer("");
 		FileOutputStream writer = new FileOutputStream(outputfile+".txt");
 		System.out.println(stringyboi.get(0));
 		for(int a=0;a<stringyboi.size();a++)
 		{
-			
-//code		System.out.println(st)
+
+			//code		System.out.println(st)
 			//System.out.println(stringyboi.get(a));
 			if(!Objects.isNull(stringyboi.get(a)))
 			{
-			String binaryver = Integer.toBinaryString(stringyboi.get(a));
-			binaryver = String.format("%"+bytesize+"s",binaryver);
-			binaryver = binaryver.replaceAll(" ","0");
-			System.out.println(binaryver);
-			byte[] bytes = new BigInteger(binaryver,2).toByteArray();
-			builder.append(stringyboi.get(a));
-			writer.write(bytes);
+				String binaryver = Integer.toBinaryString(stringyboi.get(a));
+				binaryver = String.format("%"+bytesize+"s",binaryver);
+				binaryver = binaryver.replaceAll(" ","0");
+				System.out.println(binaryver);
+				byte[] bytes = new BigInteger(binaryver,2).toByteArray();
+				builder.append(stringyboi.get(a));
+				writer.write(bytes);
 			}
 		}
 
-		
+
 
 		writer.close();
-		
+
 		StringBuffer buffer = new StringBuffer("");
 
 		for(String key:dict.keySet())
 		{
-			
+
 			buffer.append(dict.get(key)+" "+key+"\n");
 		}
 		PrintWriter kEYS = new PrintWriter(outputfile+"keys.txt");
 		kEYS.print(buffer.toString());
 		kEYS.close();
+	}
+	
+	public static void decode(String inputFile, int binsize) throws FileNotFoundException {
+		FileReader reader = new FileReader (inputFile);
+		
 	}
 }
