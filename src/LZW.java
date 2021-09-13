@@ -119,13 +119,19 @@ public class LZW {
 		kEYS.close();
 	}
 	
-	public static void decode(String inputFile, int binsize) throws FileNotFoundException {
+	public static void decode(String inputFile, int binsize) throws IOException {
 		FileReader reader = new FileReader (inputFile);
 		HashMap <Integer, String>dict = new HashMap();
 		for(char ch = 32;ch<=126;ch++)
 		{
 			dict.put((int)ch, "" + ch);
 		}
-		
+		while (reader.ready()) {
+			StringBuilder code = new StringBuilder("");
+			for (int i = 0; i < binsize; i++) {
+				code.append(reader.read());
+			}
+			String str = code.toString();
+		}
 	}
 }
