@@ -121,6 +121,11 @@ public class LZW {
 	
 	public static void decode(String inputFile, int binsize) throws FileNotFoundException {
 		FileReader reader = new FileReader (inputFile);
+		HashMap <Integer, String>dict = new HashMap();
+		for(char ch = 32;ch<=126;ch++)
+		{
+			dict.put((int)ch, "" + ch);
+		}
 		
 	}
 }
