@@ -8,8 +8,7 @@ public class Testerboi {
 		String outname = "boi";
 		int bytecount = 9;
 		boi.encode("lzw-file1", outname,bytecount);
-
-		//System.out.println(dec.stringyboi);
+		boi.decode("boikeys.txt", 9);
 	}
 
 }
