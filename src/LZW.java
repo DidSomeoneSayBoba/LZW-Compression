@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -89,8 +90,9 @@ public class LZW {
 		for(int a=0;a<stringyboi.size();a++)
 		{
 
-			//code		System.out.println(st)
+			//next		System.out.println(st)
 			//System.out.println(stringyboi.get(a));
+			//WHAT IS THIS
 			if(!Objects.isNull(stringyboi.get(a)))
 			{
 				String binaryver = Integer.toBinaryString(stringyboi.get(a));
@@ -122,22 +124,43 @@ public class LZW {
 	public static void decode(String inputFile, int binsize) throws IOException {
 		FileReader reader = new FileReader (inputFile);
 		HashMap <Integer, String>dict = new HashMap();
-		//codes in 126 characters from ascii table at correct locations; custom starts at 127
+		//nexts in 126 characters from ascii table at correct locations; custom starts at 127
 		for(char ch = 32;ch<=126;ch++)
 		{
 			dict.put((int)ch, "" + ch);
 		}
-		StringBuilder output = new StringBuilder("");
+		StringBuilder input = new StringBuilder("");
 		while (reader.ready()) {
-			// gets binary for next code
-			StringBuilder code = new StringBuilder("");
-			for (int i = 0; i < binsize; i++) {
-				code.append(reader.read());
-			}
-			// converts into decimal representation
-			String str = code.toString();
-			int dec = Integer.parseInt(str, 2);
-			
+			System.out.println(input.append((byte)reader.read()));
 		}
+		reader.close();
+		String str = input.toString();
+		StringBuilder current = new StringBuilder();
+		current.append(str.substring(0, binsize));
+		int index = 127;
+		StringBuilder output = new StringBuilder("");
+		for (int i = binsize; i < str.length(); i += binsize) {
+			// gets binary for next next
+			StringBuilder next = new StringBuilder("");
+			next.append(str.substring(i, i+binsize));
+			System.out.println (next);
+			// converts into decimal representation
+			String handled = next.toString();
+			System.out.println("gonna cry? " + handled);
+			int dec1 = Integer.parseInt(current.toString(), 2);
+			int dec2 = Integer.parseInt(next.toString(), 2);
+			if (!dict.containsKey(dec1 + dec2)) {
+				dict.put(index, "" + dec1 + dec2);
+				output.append(dict.get(index));
+				index++;
+				current = next;
+			}
+			else {
+				current = current.append(handled);
+			}
+		}
+		FileWriter writer = new FileWriter("output.txt");
+		writer.write(output.toString());
+		writer.close();
 	}
 }
