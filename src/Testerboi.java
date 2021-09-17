@@ -7,7 +7,8 @@ public class Testerboi {
 		LZW boi = new LZW();
 		String outname = "boi";
 		int bytecount = 9;
-		boi.encode("lzw-file3", outname,bytecount);
+		byte num = 10;
+		boi.encode("lzw-file2", outname,bytecount);
 		boi.decode("boi.txt", bytecount);
 	}
 
