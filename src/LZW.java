@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -90,17 +91,16 @@ public class LZW {
 		for(int a=0;a<stringyboi.size();a++)
 		{
 
-			//next		System.out.println(st)
-			//System.out.println(stringyboi.get(a));
-			//WHAT IS THIS
+			System.out.println(stringyboi.get(a));
 			if(!Objects.isNull(stringyboi.get(a)))
 			{
 				String binaryver = Integer.toBinaryString(stringyboi.get(a));
 				binaryver = String.format("%"+bytesize+"s",binaryver);
 				binaryver = binaryver.replaceAll(" ","0");
-				System.out.println(binaryver);
+				//System.out.println(binaryver);
 				byte[] bytes = new BigInteger(binaryver,2).toByteArray();
-				builder.append(stringyboi.get(a));
+				//System.out.println(bytes[0]);
+				//builder.append(stringyboi.get(a));
 				writer.write(bytes);
 			}
 		}
@@ -130,25 +130,25 @@ public class LZW {
 			dict.put((int)ch, "" + ch);
 		}
 		StringBuilder input = new StringBuilder("");
-		while (reader.ready()) {
-			System.out.println(input.append((byte)reader.read()));
+		byte[] bits = Files.readAllBytes(new File (inputFile).toPath());
+		for (int i = 0; i < bits.length; i++) {
+			input.append(toBinary((int)bits[i], binsize));
+			System.out.println(Integer.toBinaryString(bits[i]));
 		}
 		reader.close();
 		String str = input.toString();
-		StringBuilder current = new StringBuilder();
-		current.append(str.substring(0, binsize));
+		String current = str.substring(0, binsize);
 		int index = 127;
 		StringBuilder output = new StringBuilder("");
 		for (int i = binsize; i < str.length(); i += binsize) {
 			// gets binary for next next
-			StringBuilder next = new StringBuilder("");
-			next.append(str.substring(i, i+binsize));
+			String next = str.substring(i, i+binsize);
+			System.out.println(current);
 			System.out.println (next);
 			// converts into decimal representation
-			String handled = next.toString();
-			System.out.println("gonna cry? " + handled);
 			int dec1 = Integer.parseInt(current.toString(), 2);
 			int dec2 = Integer.parseInt(next.toString(), 2);
+			System.out.println (dec1 + " , " + dec2);
 			if (!dict.containsKey(dec1 + dec2)) {
 				dict.put(index, "" + dec1 + dec2);
 				output.append(dict.get(index));
@@ -156,11 +156,21 @@ public class LZW {
 				current = next;
 			}
 			else {
-				current = current.append(handled);
+				current = current + next;
 			}
 		}
 		FileWriter writer = new FileWriter("output.txt");
 		writer.write(output.toString());
 		writer.close();
 	}
+	private static String toBinary(int x, int len)
+    {
+        if (len > 0)
+        {
+            return String.format("%" + len + "s",
+                            Integer.toBinaryString(x)).replaceAll(" ", "0");
+        }
+ 
+        return null;
+    }
 }
